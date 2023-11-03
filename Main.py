@@ -2,16 +2,17 @@ from tkinter import ttk
 from tkinter import *
 from tkinter import messagebox
 import Usuario
+import Driver
 
 
 class app(Tk):
     def __init__(self):
         Tk.__init__(self)
         self.title("Menú Principal")
-        # self.geometry("750x350")
         self.config(bg="white")
         self.resizable(False,False)        
         self.login()
+        self.driver = Driver.driver()
 
 
     def login(self):
@@ -57,26 +58,18 @@ class Register(Toplevel):
         self.entryNuevoUsuario = ttk.Entry(self, width=25, justify="center", font=("Century Gothic",12));self.entryNuevoUsuario.grid(column=0,row=8, sticky=W+E,padx=30, ipady=5,pady=10)
         self.entryNuevoContra = ttk.Entry(self, width=25, justify="center", font=("Century Gothic",12));self.entryNuevoContra.grid(column=1,row=8, sticky=W+E,padx=30, ipady=5,pady=10)
         
-        ttk.Button(self,text="Registrar", width=20, command=self.registrarDatos).grid(column=0,row=9, columnspan=2, sticky=W+E, padx=10,pady=30)
-    
-    def registrarDatos(self):
-        try:
-            nombre = str(self.entryEdad.get())
-            apellido = str(self.entryApellido.get())
-            edad = int(self.entryEdad.get())
-            nacionalidad = str(self.entryNacionalidad.get())
-            correo = str(self.entryCorreo.get())
-            usuario = str(self.entryNuevoUsuario.get())
-            contraseña = str(self.entryNuevoContra.get())
-            
-            newUsuario = Usuario.Usuario(nombre,apellido,edad,nacionalidad,correo,usuario,contraseña)
-            print(newUsuario)
-            print(newUsuario.getNombre())
-            
-            
-        except Exception:
-            messagebox.showerror("Error","Ingreso un dato no válido")
-            self.destroy()
+        ttk.Button(self,text="Registrar", width=20, command=lambda:self.callRegistrar(self.entryName.get(),self.entryApellido.get(),
+        self.entryEdad.get(),self.entryNacionalidad.get(),self.entryCorreo.get(),self.entryNuevoUsuario.get(),self.entryNuevoContra.get())).grid(column=0,row=9, columnspan=2, sticky=W+E, padx=10,pady=30)
+        
+        
+    def callRegistrar(self,e1,e2,e3,e4,e5,e6,e7):
+        # try:
+        self.driver.registrarDatos(e1,e2,e3,e4,e5,e6,e7)
+        # except Exception:
+        #     messagebox.showerror("Error","Ingreso un dato no válido")
+        #     self.destroy()
+
+
 
 
 app().mainloop()
