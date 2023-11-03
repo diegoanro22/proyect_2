@@ -16,3 +16,6 @@ class driver():
         newUsuario = Usuario.Usuario(nombre,apellido,edad,nacionalidad,correo,usuario,contraseña)
         print(newUsuario)
         print(newUsuario.getNombre())
+
+    def calcularIMC():
+        pass
