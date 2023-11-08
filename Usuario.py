@@ -6,7 +6,7 @@ class Usuario():
         self.nacionalidad = nacionalidad
         self.correo = correo
         self.usuario = usuario
-        self.contraseña = contraseña
+        self._contraseña = contraseña
 
     def getNombre(self):
         return self.nombre

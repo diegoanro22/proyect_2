@@ -12,7 +12,7 @@ class app(Tk):
         self.config(bg="white")
         self.resizable(False,False)        
         self.login()
-        self.driver = Driver.driver()
+        
 
 
     def login(self):
@@ -35,8 +35,10 @@ class app(Tk):
 
 class Register(Toplevel):
     def __init__(self):
+        self.driver = Driver.driver()
         Toplevel.__init__(self)
         self.title("Registrarse")
+        self.resizable(False,False)   
         self.config(bg="white")
         Label(self,text="Registro", font=("HP Simplified Hans",16),bg="#3A495B",fg="white").grid(column=0,row=0, columnspan=2, sticky=W+E,pady=10,padx=30,ipady=10)
         
@@ -63,11 +65,11 @@ class Register(Toplevel):
         
         
     def callRegistrar(self,e1,e2,e3,e4,e5,e6,e7):
-        # try:
-        self.driver.registrarDatos(e1,e2,e3,e4,e5,e6,e7)
-        # except Exception:
-        #     messagebox.showerror("Error","Ingreso un dato no válido")
-        #     self.destroy()
+        try:
+            self.driver.registrarDatos(e1,e2,e3,e4,e5,e6,e7)
+        except Exception:
+            messagebox.showerror("Error","Ingreso un dato no válido")
+            self.destroy()
 
 
 
