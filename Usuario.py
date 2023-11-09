@@ -1,3 +1,7 @@
+
+from typing import Any
+
+
 class Usuario():
     def __init__(self,nombre,apellido,edad,nacionalidad,correo,usuario,contraseña):
         self.nombre = nombre
@@ -6,7 +10,7 @@ class Usuario():
         self.nacionalidad = nacionalidad
         self.correo = correo
         self.usuario = usuario
-        self._contraseña = contraseña
+        self.__contraseña = contraseña
 
     def getNombre(self):
         return self.nombre
@@ -26,7 +30,7 @@ class Usuario():
     def setEdad(self, edad):
         self.edad = edad
 
-    def fetNacionalidad(self):
+    def getNacionalidad(self):
         return self.nacionalidad
 
     def setNacionalidad(self, nacionalidad):
@@ -45,7 +49,8 @@ class Usuario():
         self.usuario = usuario
 
     def getContraseña(self):
-        return self.contraseña
+        return self.__contraseña
     
-    def setContraseña(self, contraseña):
-        self.contraseña = contraseña
+
+    def toString(self):
+        return f"{self.getNombre()},{self.getApeliido()},{self.getEdad()},{self.getNacionalidad()},{self.getCorreo()},{self.getUsuario()},{self.getContraseña()}"

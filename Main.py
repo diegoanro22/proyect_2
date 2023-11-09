@@ -1,18 +1,16 @@
 from tkinter import ttk
 from tkinter import *
 from tkinter import messagebox
-import Usuario
 import Driver
 
 
 class app(Tk):
     def __init__(self):
         Tk.__init__(self)
-        self.title("Menú Principal")
+        self.title("Login")
         self.config(bg="white")
         self.resizable(False,False)        
         self.login()
-        
 
 
     def login(self):
@@ -25,7 +23,7 @@ class app(Tk):
         ttk.Label(self,text="Contraseña",style="Login.TLabel").grid(column=1,row=3, sticky=S+W,padx=50)
         self.entryContra = ttk.Entry(self, show="*",width=50, justify="center",font=("Century Gothic",12));self.entryContra.grid(column=1,row=4, columnspan=2, sticky=W+E,padx=50,ipady=5)
 
-        ttk.Button(self,text="Iniciar sesión", width=20).grid(column=1,row=5, sticky=W+E, padx=10,pady=30)
+        ttk.Button(self,text="Iniciar sesión", width=20,command=lambda:self.validar(self.entryUsuario.get(),self.entryContra.get())).grid(column=1,row=5, sticky=W+E, padx=10,pady=30)
         ttk.Button(self,text="Registrarse", width=20,command=lambda:Register()).grid(column=2,row=5, sticky=W+E, padx=10,pady=30)
 
         self.style = ttk.Style(self)
@@ -33,12 +31,21 @@ class app(Tk):
         self.style.configure('TButton', font=("Bahnschrift",14),background="#243952")
 
 
+    def validar(self,username,password):
+        self.driver = Driver.driver()
+        try:
+            self.driver.login(username,password)
+        except Exception :
+            messagebox.showerror("Error",Exception)
+
+
+
 class Register(Toplevel):
     def __init__(self):
         self.driver = Driver.driver()
         Toplevel.__init__(self)
         self.title("Registrarse")
-        self.resizable(False,False)   
+        self.resizable(False,False)
         self.config(bg="white")
         Label(self,text="Registro", font=("HP Simplified Hans",16),bg="#3A495B",fg="white").grid(column=0,row=0, columnspan=2, sticky=W+E,pady=10,padx=30,ipady=10)
         
@@ -61,16 +68,25 @@ class Register(Toplevel):
         self.entryNuevoContra = ttk.Entry(self, width=25, justify="center", font=("Century Gothic",12));self.entryNuevoContra.grid(column=1,row=8, sticky=W+E,padx=30, ipady=5,pady=10)
         
         ttk.Button(self,text="Registrar", width=20, command=lambda:self.callRegistrar(self.entryName.get(),self.entryApellido.get(),
-        self.entryEdad.get(),self.entryNacionalidad.get(),self.entryCorreo.get(),self.entryNuevoUsuario.get(),self.entryNuevoContra.get())).grid(column=0,row=9, columnspan=2, sticky=W+E, padx=10,pady=30)
+        self.entryEdad.get(),self.entryNacionalidad.get(),self.entryCorreo.get(),self.entryNuevoUsuario.get(),
+        self.entryNuevoContra.get())).grid(column=0,row=9, columnspan=2, sticky=W+E, padx=10,pady=30)
         
         
     def callRegistrar(self,e1,e2,e3,e4,e5,e6,e7):
-        try:
+        # try:
             self.driver.registrarDatos(e1,e2,e3,e4,e5,e6,e7)
-        except Exception:
-            messagebox.showerror("Error","Ingreso un dato no válido")
             self.destroy()
+        # except Exception:
+        #     messagebox.showerror("Error","Ingreso un dato no válido")
+        #     self.destroy()
 
+
+class Login(Toplevel):
+    def __init__(self):
+        Toplevel.__init__(self)
+        self.title("Menú Principal")
+        self.resizable(False,False)
+        self.config(bg="white")
 
 
 
