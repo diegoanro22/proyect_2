@@ -24,6 +24,7 @@ class app(Tk):
         self.entryContra = ttk.Entry(self, show="*",width=50, justify="center",font=("Century Gothic",12));self.entryContra.grid(column=1,row=4, columnspan=2, sticky=W+E,padx=50,ipady=5)
 
         ttk.Button(self,text="Iniciar sesión", width=20,command=lambda:self.validar(self.entryUsuario.get(),self.entryContra.get())).grid(column=1,row=5, sticky=W+E, padx=10,pady=30)
+        #ttk.Button(self,text="Iniciar sesión", width=20,command=lambda:Login()).grid(column=1,row=5, sticky=W+E, padx=10,pady=30)
         ttk.Button(self,text="Registrarse", width=20,command=lambda:Register()).grid(column=2,row=5, sticky=W+E, padx=10,pady=30)
 
         self.style = ttk.Style(self)
@@ -32,12 +33,25 @@ class app(Tk):
 
 
     def validar(self,username,password):
+        
+        #Ingresa a la clase driver para verificar si el usuario y contraseña están registrados.
         self.driver = Driver.driver()
+        validar_entrada = self.driver.login(username,password)
+
+        if validar_entrada:
+            
+            Login_ven()
+        else:
+            pass
+
+
+        """
         try:
             self.driver.login(username,password)
         except Exception :
             messagebox.showerror("Error",Exception)
-
+        """
+        
 
 
 class Register(Toplevel):
@@ -81,13 +95,21 @@ class Register(Toplevel):
         #     self.destroy()
 
 
-class Login(Toplevel):
+class Login_ven(Toplevel):
     def __init__(self):
+        self.driver = Driver.driver()
+        #self.driver.login()
         Toplevel.__init__(self)
-        self.title("Menú Principal")
+        self.title("Inicio")
         self.resizable(False,False)
         self.config(bg="white")
+        Label(self,text="INICIO", font=("HP Simplified Hans",16),bg="#3A495B",fg="white").grid(column=0,row=0, columnspan=2, sticky=W+E,pady=10,padx=30,ipady=10)
 
+
+        ttk.Button(self,text="Ingresar IMC", width=20,command=lambda:Register()).grid(column=0,row=1, sticky=S+W,padx=30)
+
+        
+        
 
 
 app().mainloop()

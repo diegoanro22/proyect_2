@@ -1,5 +1,7 @@
 import Usuario
 import Archivo
+import pandas as pd
+import csv
 import os
 
 class driver():
@@ -29,10 +31,19 @@ class driver():
 
 
     def login(self, username, password):
-        archivo = archivo.leerArchivo()
+        archivo = self.archivo.leerArchivo()
         
-        if username =="" or password == "":
-            raise Exception ("asd")
+        
+        filtro = archivo.loc[archivo["usuario"] == username]
+        filtropass = archivo.loc[archivo["_Usuario__contraseña"] == password]
+        if filtro.empty == True and filtropass.empty == True:
+            return False
+        else:
+            return True
+        print(filtro)
+
+       # if username =="" or password == "":
+        #    raise Exception ("asd")
 
 
 
