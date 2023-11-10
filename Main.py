@@ -87,12 +87,12 @@ class Register(Toplevel):
         
         
     def callRegistrar(self,e1,e2,e3,e4,e5,e6,e7):
-        # try:
+        try:
             self.driver.registrarDatos(e1,e2,e3,e4,e5,e6,e7)
             self.destroy()
-        # except Exception:
-        #     messagebox.showerror("Error","Ingreso un dato no válido")
-        #     self.destroy()
+        except Exception:
+            messagebox.showerror("Error","Ingreso un dato no válido")
+            self.destroy()
 
 
 class Login_ven(Toplevel):
@@ -119,7 +119,7 @@ class calc_imc(Toplevel):
         self.resizable(False,False)
         self.config(bg="white")
         self.fotoimc = PhotoImage(file="IMC.png")
-        Label(self,image=self.fotoimc).grid(column=3,row=0,rowspan=6)
+        Label(self,image=self.fotoimc).grid(column=0,row=5,rowspan=6, columnspan=3)
         Label(self,text="Calcular IMC", font=("HP Simplified Hans",16),bg="#3A495B",fg="white").grid(column=0,row=0, columnspan=3, sticky=W+E,pady=10,padx=30,ipady=10)
         ttk.Label(self,text="Ingrese su altura(m)", style="Login.TLabel").grid(column=0,row=1, sticky=S+W,padx=30)
         self.entryAltura = ttk.Entry(self, width=25, justify="center", font=("Century Gothic",12));self.entryAltura.grid(column=0,row=2, sticky=W+E,padx=30, ipady=5,pady=10)
@@ -133,8 +133,12 @@ class calc_imc(Toplevel):
         ttk.Button(self,text="Calcular IMC", width=20,command=lambda:self.callCalcularIMC(self.entryAltura.get(),self.entryPeso.get(),self.entryEdad.get())).grid(column=0,row=3, sticky=S+W,padx=30)
     
     def callCalcularIMC(self, altura, peso, edad):
-        self.imcfinal=self.driver.calcularIMC(altura,peso,edad)
-        self.resultadoIMC = ttk.Label(self,text="Su IMC es: "+str(self.imcfinal)+" %", style="Login.TLabel").grid(column=1,row=3, columnspan=2,sticky=S+W,padx=30)
+        try:
+            self.imcfinal=self.driver.calcularIMC(altura,peso,edad)
+            self.resultadoIMC = ttk.Label(self,text="Su IMC es: "+str(self.imcfinal)+" %", style="Login.TLabel").grid(column=1,row=3, columnspan=2,sticky=S+W,padx=30)
+        except:
+            messagebox.showerror("Error","Ingreso un valor erroneo")
+
 
 
 app().mainloop()
