@@ -42,10 +42,13 @@ class driver():
             return True
         print(filtro)
 
-       # if username =="" or password == "":
+        # if username =="" or password == "":
         #    raise Exception ("asd")
 
 
 
-    def calcularIMC():
-        pass
+    def calcularIMC(self, altura, peso, edad):
+        altura=float(altura)
+        peso=int(peso)
+        imc=round((peso/(altura**2)),2)
+        return imc

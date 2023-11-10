@@ -106,10 +106,35 @@ class Login_ven(Toplevel):
         Label(self,text="INICIO", font=("HP Simplified Hans",16),bg="#3A495B",fg="white").grid(column=0,row=0, columnspan=2, sticky=W+E,pady=10,padx=30,ipady=10)
 
 
-        ttk.Button(self,text="Ingresar IMC", width=20,command=lambda:Register()).grid(column=0,row=1, sticky=S+W,padx=30)
+        ttk.Button(self,text="Ingresar IMC", width=50,command=lambda:calc_imc()).grid(column=0,row=1, sticky=S+W,padx=30)
+        # ttk.Button(self,text="Dieta", width=50,command=lambda:calc_imc()).grid(column=1,row=1, sticky=S+W,padx=30)
+        # ttk.Button(self,text="Rutina de Ejercicios", width=50,command=lambda:calc_imc()).grid(column=0,row=2, sticky=S+W,padx=30)
+        # ttk.Button(self,text="Tips", width=50,command=lambda:calc_imc()).grid(column=1,row=2, sticky=S+W,padx=30)
 
-        
-        
+class calc_imc(Toplevel):
+    def __init__(self):
+        self.driver = Driver.driver()
+        Toplevel.__init__(self)
+        self.title("Calculadora de IMC")
+        self.resizable(False,False)
+        self.config(bg="white")
+        self.fotoimc = PhotoImage(file="IMC.png")
+        Label(self,image=self.fotoimc).grid(column=3,row=0,rowspan=6)
+        Label(self,text="Calcular IMC", font=("HP Simplified Hans",16),bg="#3A495B",fg="white").grid(column=0,row=0, columnspan=3, sticky=W+E,pady=10,padx=30,ipady=10)
+        ttk.Label(self,text="Ingrese su altura(m)", style="Login.TLabel").grid(column=0,row=1, sticky=S+W,padx=30)
+        self.entryAltura = ttk.Entry(self, width=25, justify="center", font=("Century Gothic",12));self.entryAltura.grid(column=0,row=2, sticky=W+E,padx=30, ipady=5,pady=10)
+        ttk.Label(self,text="Ingrese su peso(Kg)", style="Login.TLabel").grid(column=1,row=1, sticky=S+W,padx=30)
+        self.entryPeso = ttk.Entry(self, width=25, justify="center", font=("Century Gothic",12));self.entryPeso.grid(column=1,row=2, sticky=W+E,padx=30, ipady=5,pady=10)
+        ttk.Label(self,text="Ingrese su edad", style="Login.TLabel").grid(column=2,row=1, sticky=S+W,padx=35)
+        self.entryEdad = ttk.Entry(self, width=25, justify="center", font=("Century Gothic",12));self.entryEdad.grid(column=2,row=2, sticky=W+E,padx=30, ipady=5,pady=10)
+
+        self.resultadoIMC = ttk.Label(self,text="", style="Login.TLabel").grid(column=2,row=1, sticky=S+W,padx=30)
+
+        ttk.Button(self,text="Calcular IMC", width=20,command=lambda:self.callCalcularIMC(self.entryAltura.get(),self.entryPeso.get(),self.entryEdad.get())).grid(column=0,row=3, sticky=S+W,padx=30)
+    
+    def callCalcularIMC(self, altura, peso, edad):
+        self.imcfinal=self.driver.calcularIMC(altura,peso,edad)
+        self.resultadoIMC = ttk.Label(self,text="Su IMC es: "+str(self.imcfinal)+" %", style="Login.TLabel").grid(column=1,row=3, columnspan=2,sticky=S+W,padx=30)
 
 
 app().mainloop()
