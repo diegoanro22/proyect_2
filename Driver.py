@@ -49,6 +49,7 @@ class driver():
 
     def calcularIMC(self, altura, peso, edad):
         altura=float(altura)
-        peso=int(peso)
+        peso=float(peso)
+        edad=int(edad)
         imc=round((peso/(altura**2)),2)
         return imc

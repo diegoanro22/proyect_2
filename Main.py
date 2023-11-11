@@ -24,7 +24,6 @@ class app(Tk):
         self.entryContra = ttk.Entry(self, show="*",width=50, justify="center",font=("Century Gothic",12));self.entryContra.grid(column=1,row=4, columnspan=2, sticky=W+E,padx=50,ipady=5)
 
         ttk.Button(self,text="Iniciar sesión", width=20,command=lambda:self.validar(self.entryUsuario.get(),self.entryContra.get())).grid(column=1,row=5, sticky=W+E, padx=10,pady=30)
-        #ttk.Button(self,text="Iniciar sesión", width=20,command=lambda:Login()).grid(column=1,row=5, sticky=W+E, padx=10,pady=30)
         ttk.Button(self,text="Registrarse", width=20,command=lambda:Register()).grid(column=2,row=5, sticky=W+E, padx=10,pady=30)
 
         self.style = ttk.Style(self)
@@ -44,14 +43,6 @@ class app(Tk):
         else:
             pass
 
-
-        """
-        try:
-            self.driver.login(username,password)
-        except Exception :
-            messagebox.showerror("Error",Exception)
-        """
-        
 
 
 class Register(Toplevel):
@@ -105,21 +96,22 @@ class Login_ven(Toplevel):
         self.config(bg="white")
         Label(self,text="INICIO", font=("HP Simplified Hans",16),bg="#3A495B",fg="white").grid(column=0,row=0, columnspan=2, sticky=W+E,pady=10,padx=30,ipady=10)
 
+        ttk.Button(self,text="Ingresar IMC", width=50,command=lambda:v_imc()).grid(column=0,row=1, sticky=S+W,padx=20,pady=30,ipady=30)
+        ttk.Button(self,text="Dieta", width=50).grid(column=1,row=1, sticky=S+W,padx=20,pady=30,ipady=30)
+        ttk.Button(self,text="Rutina de Ejercicios", width=50).grid(column=0,row=2, sticky=S+W,padx=20,pady=30,ipady=30)
+        ttk.Button(self,text="Tips", width=50).grid(column=1,row=2, sticky=S+W,padx=20,pady=30,ipady=30)
 
-        ttk.Button(self,text="Ingresar IMC", width=50,command=lambda:calc_imc()).grid(column=0,row=1, sticky=S+W,padx=30)
-        # ttk.Button(self,text="Dieta", width=50,command=lambda:calc_imc()).grid(column=1,row=1, sticky=S+W,padx=30)
-        # ttk.Button(self,text="Rutina de Ejercicios", width=50,command=lambda:calc_imc()).grid(column=0,row=2, sticky=S+W,padx=30)
-        # ttk.Button(self,text="Tips", width=50,command=lambda:calc_imc()).grid(column=1,row=2, sticky=S+W,padx=30)
 
-class calc_imc(Toplevel):
+class v_imc(Toplevel):
     def __init__(self):
         self.driver = Driver.driver()
         Toplevel.__init__(self)
         self.title("Calculadora de IMC")
         self.resizable(False,False)
         self.config(bg="white")
+        
         self.fotoimc = PhotoImage(file="IMC.png")
-        Label(self,image=self.fotoimc).grid(column=0,row=5,rowspan=6, columnspan=3)
+        Label(self,image=self.fotoimc).grid(column=0,row=5, columnspan=4,sticky=W+E)
         Label(self,text="Calcular IMC", font=("HP Simplified Hans",16),bg="#3A495B",fg="white").grid(column=0,row=0, columnspan=3, sticky=W+E,pady=10,padx=30,ipady=10)
         ttk.Label(self,text="Ingrese su altura(m)", style="Login.TLabel").grid(column=0,row=1, sticky=S+W,padx=30)
         self.entryAltura = ttk.Entry(self, width=25, justify="center", font=("Century Gothic",12));self.entryAltura.grid(column=0,row=2, sticky=W+E,padx=30, ipady=5,pady=10)
@@ -127,7 +119,6 @@ class calc_imc(Toplevel):
         self.entryPeso = ttk.Entry(self, width=25, justify="center", font=("Century Gothic",12));self.entryPeso.grid(column=1,row=2, sticky=W+E,padx=30, ipady=5,pady=10)
         ttk.Label(self,text="Ingrese su edad", style="Login.TLabel").grid(column=2,row=1, sticky=S+W,padx=35)
         self.entryEdad = ttk.Entry(self, width=25, justify="center", font=("Century Gothic",12));self.entryEdad.grid(column=2,row=2, sticky=W+E,padx=30, ipady=5,pady=10)
-
         self.resultadoIMC = ttk.Label(self,text="", style="Login.TLabel").grid(column=2,row=1, sticky=S+W,padx=30)
 
         ttk.Button(self,text="Calcular IMC", width=20,command=lambda:self.callCalcularIMC(self.entryAltura.get(),self.entryPeso.get(),self.entryEdad.get())).grid(column=0,row=3, sticky=S+W,padx=30)
@@ -138,6 +129,33 @@ class calc_imc(Toplevel):
             self.resultadoIMC = ttk.Label(self,text="Su IMC es: "+str(self.imcfinal)+" %", style="Login.TLabel").grid(column=1,row=3, columnspan=2,sticky=S+W,padx=30)
         except:
             messagebox.showerror("Error","Ingreso un valor erroneo")
+
+
+class v_dieta(Toplevel):
+    def __init__(self):
+        self.driver = Driver.driver()
+        Toplevel.__init__(self)
+        self.title("Dietas")
+        self.resizable(False,False)
+        self.config(bg="white")
+        
+class v_ejercicio(Toplevel):
+    def __init__(self):
+        self.driver = Driver.driver()
+        Toplevel.__init__(self)
+        self.title("Ejercicios")
+        self.resizable(False,False)
+        self.config(bg="white")
+        
+class v_tips(Toplevel):
+    def __init__(self):
+        self.driver = Driver.driver()
+        Toplevel.__init__(self)
+        self.title("Tips")
+        self.resizable(False,False)
+        self.config(bg="white")
+
+
 
 
 
