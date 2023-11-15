@@ -29,6 +29,14 @@ class driver():
         
         self.archivo.agregarUsuario(usuario.__dict__)
 
+    def guardarArchivoIMC(self,usuario):
+        if os.path.exists("IMC.csv"):
+            pass
+        else:
+            self.archivo.crearIMC()
+        
+        self.archivo.agregarUsuario(usuario.__dict__)
+
 
     def login(self, username, password):
         archivo = self.archivo.leerArchivo()
@@ -52,4 +60,14 @@ class driver():
         peso=float(peso)
         edad=int(edad)
         imc=round((peso/(altura**2)),2)
+        registrarDatosIMC(altura, peso, edad)
         return imc
+
+    def registrarDatosIMC(self,e1,e2,e3):
+        altura = str(e1)
+        peso = str(e2)
+        edad = int(e3)
+        #Imc = str(e4)
+        
+        newIMC = IMC.IMC(altura,peso,edad)
+        self.guardarArchivo(newIMC)
