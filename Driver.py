@@ -1,4 +1,5 @@
 import Usuario
+import IMC
 import Archivo
 import pandas as pd
 import csv
@@ -29,13 +30,13 @@ class driver():
         
         self.archivo.agregarUsuario(usuario.__dict__)
 
-    def guardarArchivoIMC(self,usuario):
+    def guardarArchivoIMC(self,imc):
         if os.path.exists("IMC.csv"):
             pass
         else:
             self.archivo.crearIMC()
         
-        self.archivo.agregarUsuario(usuario.__dict__)
+        self.archivo.agregarIMC(imc.__dict__)
 
 
     def login(self, username, password):
@@ -53,16 +54,6 @@ class driver():
         # if username =="" or password == "":
         #    raise Exception ("asd")
 
-
-
-    def calcularIMC(self, altura, peso, edad):
-        altura=float(altura)
-        peso=float(peso)
-        edad=int(edad)
-        imc=round((peso/(altura**2)),2)
-        registrarDatosIMC(altura, peso, edad)
-        return imc
-
     def registrarDatosIMC(self,e1,e2,e3):
         altura = str(e1)
         peso = str(e2)
@@ -70,4 +61,18 @@ class driver():
         #Imc = str(e4)
         
         newIMC = IMC.IMC(altura,peso,edad)
-        self.guardarArchivo(newIMC)
+        self.guardarArchivoIMC(newIMC)
+
+
+
+    def calcularIMC(self, altura, peso, edad):
+        altura=float(altura)
+        peso=float(peso)
+        edad=int(edad)
+        imc=round((peso/(altura**2)),2)
+        self.registrarDatosIMC(altura, peso, edad)
+        return imc
+
+
+    
+
