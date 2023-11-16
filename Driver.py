@@ -1,4 +1,5 @@
 import Usuario
+import IMC
 import Archivo
 import pandas as pd
 import csv
@@ -29,6 +30,14 @@ class driver():
         
         self.archivo.agregarUsuario(usuario.__dict__)
 
+    def guardarArchivoIMC(self,imc):
+        if os.path.exists("IMC.csv"):
+            pass
+        else:
+            self.archivo.crearIMC()
+        
+        self.archivo.agregarIMC(imc.__dict__)
+
 
     def login(self, username, password):
         archivo = self.archivo.leerArchivo()
@@ -40,9 +49,32 @@ class driver():
         if filtro_user.empty:
             raise Exception("Usuario no encontrado")
         
+<<<<<<< HEAD
         filtro_pass = archivo.loc[(archivo["usuario"] == username) & (archivo["_Usuario__contraseña"] == password)]
         if filtro_pass.empty:
             raise Exception("Contraseña incorrecta")
+=======
+        filtro = archivo.loc[archivo["usuario"] == username]
+        filtropass = archivo.loc[archivo["_Usuario__contraseña"] == password]
+        if filtro.empty == True and filtropass.empty == True:
+            return False
+        else:
+            return True
+        print(filtro)
+
+        # if username =="" or password == "":
+        #    raise Exception ("asd")
+
+    def registrarDatosIMC(self,e1,e2,e3):
+        altura = str(e1)
+        peso = str(e2)
+        edad = int(e3)
+        #Imc = str(e4)
+        
+        newIMC = IMC.IMC(altura,peso,edad)
+        self.guardarArchivoIMC(newIMC)
+
+>>>>>>> e35638bc3353d222e6bc86d4d09ff7dbf009e9db
 
         return True
     
@@ -52,4 +84,9 @@ class driver():
         peso=float(peso)
         edad=int(edad)
         imc=round((peso/(altura**2)),2)
+        self.registrarDatosIMC(altura, peso, edad)
         return imc
+
+
+    
+

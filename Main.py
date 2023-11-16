@@ -125,11 +125,11 @@ class v_imc(Toplevel):
         ttk.Button(self,text="Calcular IMC", width=20,command=lambda:self.callCalcularIMC(self.entryAltura.get(),self.entryPeso.get(),self.entryEdad.get())).grid(column=0,row=3, sticky=S+W,padx=30)
     
     def callCalcularIMC(self, altura, peso, edad):
-        try:
+        #try:
             self.imcfinal=self.driver.calcularIMC(altura,peso,edad)
             self.resultadoIMC = ttk.Label(self,text="Su IMC es: "+str(self.imcfinal)+" %", style="Login.TLabel").grid(column=1,row=3, columnspan=2,sticky=S+W,padx=30)
-        except:
-            messagebox.showerror("Error","Ingreso un valor erroneo")
+        #except:
+            #messagebox.showerror("Error","Ingreso un valor erroneo")
 
 
 class v_dieta(Toplevel):
