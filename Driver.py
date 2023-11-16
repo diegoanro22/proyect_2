@@ -33,19 +33,19 @@ class driver():
     def login(self, username, password):
         archivo = self.archivo.leerArchivo()
         
+        if username =="" or password == "":
+            raise Exception ("No llenó el formulario")
+
+        filtro_user = archivo.loc[archivo["usuario"] == username]
+        if filtro_user.empty:
+            raise Exception("Usuario no encontrado")
         
-        filtro = archivo.loc[archivo["usuario"] == username]
-        filtropass = archivo.loc[archivo["_Usuario__contraseña"] == password]
-        if filtro.empty == True and filtropass.empty == True:
-            return False
-        else:
-            return True
-        print(filtro)
+        filtro_pass = archivo.loc[(archivo["usuario"] == username) & (archivo["_Usuario__contraseña"] == password)]
+        if filtro_pass.empty:
+            raise Exception("Contraseña incorrecta")
 
-        # if username =="" or password == "":
-        #    raise Exception ("asd")
-
-
+        return True
+    
 
     def calcularIMC(self, altura, peso, edad):
         altura=float(altura)

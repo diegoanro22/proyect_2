@@ -27,7 +27,6 @@ class Archivo():
 
     def leerArchivo(self):
         df = pd.read_csv("Usuarios.csv")
-        
         return df
 
 

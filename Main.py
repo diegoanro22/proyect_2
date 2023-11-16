@@ -32,16 +32,17 @@ class app(Tk):
 
 
     def validar(self,username,password):
-        
         #Ingresa a la clase driver para verificar si el usuario y contraseña están registrados.
-        self.driver = Driver.driver()
-        validar_entrada = self.driver.login(username,password)
+        try:
+            self.driver = Driver.driver()
+            validar_entrada = self.driver.login(username,password)
 
-        if validar_entrada:
-            
-            Login_ven()
-        else:
-            pass
+            if validar_entrada:
+                Login_ven()
+            else:
+                pass
+        except Exception as e:
+            messagebox.showerror("Error",str(e))
 
 
 
@@ -97,9 +98,9 @@ class Login_ven(Toplevel):
         Label(self,text="INICIO", font=("HP Simplified Hans",16),bg="#3A495B",fg="white").grid(column=0,row=0, columnspan=2, sticky=W+E,pady=10,padx=30,ipady=10)
 
         ttk.Button(self,text="Ingresar IMC", width=50,command=lambda:v_imc()).grid(column=0,row=1, sticky=S+W,padx=20,pady=30,ipady=30)
-        ttk.Button(self,text="Dieta", width=50).grid(column=1,row=1, sticky=S+W,padx=20,pady=30,ipady=30)
-        ttk.Button(self,text="Rutina de Ejercicios", width=50).grid(column=0,row=2, sticky=S+W,padx=20,pady=30,ipady=30)
-        ttk.Button(self,text="Tips", width=50).grid(column=1,row=2, sticky=S+W,padx=20,pady=30,ipady=30)
+        ttk.Button(self,text="Dieta", width=50, command=lambda:v_dieta()).grid(column=1,row=1, sticky=S+W,padx=20,pady=30,ipady=30)
+        ttk.Button(self,text="Rutina de Ejercicios", width=50, command=lambda:v_ejercicio()).grid(column=0,row=2, sticky=S+W,padx=20,pady=30,ipady=30)
+        ttk.Button(self,text="Tips", width=50, command=lambda:v_tips).grid(column=1,row=2, sticky=S+W,padx=20,pady=30,ipady=30)
 
 
 class v_imc(Toplevel):
@@ -139,6 +140,7 @@ class v_dieta(Toplevel):
         self.resizable(False,False)
         self.config(bg="white")
         
+        
 class v_ejercicio(Toplevel):
     def __init__(self):
         self.driver = Driver.driver()
@@ -146,6 +148,9 @@ class v_ejercicio(Toplevel):
         self.title("Ejercicios")
         self.resizable(False,False)
         self.config(bg="white")
+        
+        
+        
         
 class v_tips(Toplevel):
     def __init__(self):
