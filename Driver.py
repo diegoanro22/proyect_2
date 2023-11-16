@@ -4,6 +4,7 @@ import Archivo
 import pandas as pd
 import csv
 import os
+from random import randint
 
 class driver():
     def __init__(self):
@@ -75,6 +76,14 @@ class driver():
         self.registrarDatosIMC(altura, peso, edad)
         return imc
 
+    def tips_ver(self):
+        can = self.archivo.leerArchivotips()
+        rango = len(can)
+        print(rango)
+        tip1= can.loc[randint(0,rango-1)].astype(str).tolist()
+        print(tip1)
+        
 
+        return tip1
     
 

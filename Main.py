@@ -100,7 +100,7 @@ class Login_ven(Toplevel):
         ttk.Button(self,text="Ingresar IMC", width=50,command=lambda:v_imc()).grid(column=0,row=1, sticky=S+W,padx=20,pady=30,ipady=30)
         ttk.Button(self,text="Dieta", width=50, command=lambda:v_dieta()).grid(column=1,row=1, sticky=S+W,padx=20,pady=30,ipady=30)
         ttk.Button(self,text="Rutina de Ejercicios", width=50, command=lambda:v_ejercicio()).grid(column=0,row=2, sticky=S+W,padx=20,pady=30,ipady=30)
-        ttk.Button(self,text="Tips", width=50, command=lambda:v_tips).grid(column=1,row=2, sticky=S+W,padx=20,pady=30,ipady=30)
+        ttk.Button(self,text="Tips", width=50, command=lambda:v_tips()).grid(column=1,row=2, sticky=S+W,padx=20,pady=30,ipady=30)
 
 
 class v_imc(Toplevel):
@@ -159,8 +159,22 @@ class v_tips(Toplevel):
         self.title("Tips")
         self.resizable(False,False)
         self.config(bg="white")
+        
+        
+        #Label(self,text="Tip 1", font=("HP Simplified Hans",16),bg="#3A495B",fg="white").grid(column=0,row=0, columnspan=3, sticky=W+E,pady=10,padx=30,ipady=10)
+        self.TIP1 = ttk.Label(self,text="TIP 1", font=("HP Simplified Hans",16), style="Login.TLabel").grid(column=0,row=0, sticky=S+W,padx=30)
+        self.TIP2 = ttk.Label(self,text="TIP 2", font=("HP Simplified Hans",16), style="Login.TLabel").grid(column=0,row=1, sticky=S+W,padx=30)
+        self.TIP3 = ttk.Label(self,text="TIP 3", font=("HP Simplified Hans",16), style="Login.TLabel").grid(column=0,row=2, sticky=S+W,padx=30)
+        self.Ver_tips()
 
-
+    def Ver_tips(self):
+        self.show1=self.driver.tips_ver()
+        self.show2=self.driver.tips_ver()
+        self.show3=self.driver.tips_ver()
+        
+        self.TIP1 = ttk.Label(self,text=str(self.show1), style="Login.TLabel").grid(column=0,row=0, columnspan=2,sticky=S+W,padx=30)
+        self.TIP2 = ttk.Label(self,text=str(self.show2), style="Login.TLabel").grid(column=0,row=1, columnspan=2,sticky=S+W,padx=30)
+        self.TIP3 = ttk.Label(self,text=str(self.show3), style="Login.TLabel").grid(column=0,row=2, columnspan=2,sticky=S+W,padx=30)
 
 
 
