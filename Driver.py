@@ -49,21 +49,12 @@ class driver():
         if filtro_user.empty:
             raise Exception("Usuario no encontrado")
         
-<<<<<<< HEAD
         filtro_pass = archivo.loc[(archivo["usuario"] == username) & (archivo["_Usuario__contraseña"] == password)]
         if filtro_pass.empty:
             raise Exception("Contraseña incorrecta")
-=======
-        filtro = archivo.loc[archivo["usuario"] == username]
-        filtropass = archivo.loc[archivo["_Usuario__contraseña"] == password]
-        if filtro.empty == True and filtropass.empty == True:
-            return False
-        else:
-            return True
-        print(filtro)
 
-        # if username =="" or password == "":
-        #    raise Exception ("asd")
+        return True
+
 
     def registrarDatosIMC(self,e1,e2,e3):
         altura = str(e1)
@@ -73,9 +64,6 @@ class driver():
         
         newIMC = IMC.IMC(altura,peso,edad)
         self.guardarArchivoIMC(newIMC)
-
->>>>>>> e35638bc3353d222e6bc86d4d09ff7dbf009e9db
-
         return True
     
 
