@@ -139,8 +139,50 @@ class v_dieta(Toplevel):
         self.title("Dietas")
         self.resizable(False,False)
         self.config(bg="white")
-        
-        
+        self.tab=ttk.Notebook(self)
+        self.tab.grid(column=0,row=0)
+
+        self.tab1=ttk.Frame(self.tab)
+        self.tab2=ttk.Frame(self.tab)
+
+        self.tab.add(self.tab1,text="Mostrar Dieta")
+        self.tab.add(self.tab2,text="Ingresar Dieta")
+        style=ttk.Style()
+        style.configure("TNotebook.Tab", background="white", font=("Bahnschrift", 18), foreground="#3A495B")
+        style.configure("TFrame", background="white", font=("Bahnschift",18), foreground="#3A495B")
+
+        ttk.Label(self.tab1,text="Seleccione el tipo de dieta que desea ver", style="Login.TLabel").grid(column=0,row=0, sticky=S+W,padx=30)
+        self.combobox=ttk.Combobox(self.tab1)
+        self.combobox['values']=tuple(self.driver.obtenerTipoDieta())
+        self.combobox.set('Seleccione una opción')
+        self.combobox.grid(column=0,row=1, sticky=S+W, padx=30)
+
+        ttk.Label(self.tab2,text="Ingrese el tipo de su dieta: ", style="Login.TLabel").grid(column=0,row=0, sticky=S+W,padx=30)
+        self.entryTipo = ttk.Entry(self.tab2, width=25, justify="center", font=("Century Gothic",12));self.entryTipo.grid(column=0,row=1, sticky=W+E,padx=30, ipady=5,pady=10)
+        ttk.Label(self.tab2,text="Ingrese cada elemento de su desayuno separado por un guión(-): ", style="Login.TLabel").grid(column=0,row=2, sticky=S+W,padx=35)
+        self.entryDesayuno = ttk.Entry(self.tab2, width=25, justify="center", font=("Century Gothic",12));self.entryDesayuno.grid(column=0,row=3, sticky=W+E,padx=30, ipady=5,pady=10)
+        ttk.Label(self.tab2,text="Ingrese cada elemento de su almuerzo separado por un guión(-): ", style="Login.TLabel").grid(column=0,row=4, sticky=S+W,padx=35)
+        self.entryAlmuerzo = ttk.Entry(self.tab2, width=25, justify="center", font=("Century Gothic",12));self.entryAlmuerzo.grid(column=0,row=5, sticky=W+E,padx=30, ipady=5,pady=10)
+        ttk.Label(self.tab2,text="Ingrese cada elemento de su cena separado por un guión(-): ", style="Login.TLabel").grid(column=0,row=6, sticky=S+W,padx=35)
+        self.entryCena = ttk.Entry(self.tab2, width=25, justify="center", font=("Century Gothic",12));self.entryCena.grid(column=0,row=7, sticky=W+E,padx=30, ipady=5,pady=10)
+
+        ttk.Button(self.tab1,text="Mostrar Dieta", width=20,command=lambda:self.callmostrarDieta(self.combobox.get())).grid(column=1,row=2, sticky=S+W,padx=30)
+        ttk.Button(self.tab2,text="Guardar Dieta", width=20,command=lambda:self.calldatosDieta(self.entryTipo.get(),self.entryDesayuno.get(),self.entryAlmuerzo.get(),self.entryCena.get())).grid(column=0,row=8, sticky=S+W,padx=30)
+
+    def callmostrarDieta(self, tipo):
+        resultadoBusquedaTipo=self.driver.mostrarDieta(tipo)
+        for index,row in resultadoBusquedaTipo.iterrows():
+            etiqueta_dieta=Label(self.tab1, text=f"Tipo: {row.iloc[0]}, Desayuno: {row.iloc[1]}, Almuerzo: {row.iloc[2]}, Cena: {row.iloc[3]}")
+            etiqueta_dieta.grid(column=0,row=3, sticky=W, padx=10, pady=5)
+            etiqueta_dieta.config(bg="white",font=("Arial", 12))
+
+
+    def calldatosDieta(self, tipo, desayuno, almuerzo, cena):
+        try:
+            self.driver.datosDieta(tipo, desayuno, almuerzo, cena)
+        except:
+            messagebox.showerror("Error","No ingreso algun dato")
+
 class v_ejercicio(Toplevel):
     def __init__(self):
         self.driver = Driver.driver()

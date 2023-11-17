@@ -59,6 +59,11 @@ class Archivo():
         df = pd.read_csv("Tips.csv")
         
         return df
+    
+    def leerArchivoDieta(self):
+        df = pd.read_csv("Dieta.csv")
+
+        return df
 
 
 
@@ -75,4 +80,8 @@ class Archivo():
         df.to_csv("IMC.csv",index=False, mode="a", header=not os.path.isfile("IMC.csv"))
 
         
-        
+    def agregarDieta(self,dieta):
+        df = self.leerArchivo()
+        ndf = pd.DataFrame(dieta,index=[0])
+        df = pd.concat([ndf],ignore_index=False)
+        df.to_csv("Dieta.csv", index=False, mode="a", header=not os.path.isfile("Dieta.csv"))
