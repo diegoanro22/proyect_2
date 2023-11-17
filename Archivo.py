@@ -52,7 +52,6 @@ class Archivo():
 
     def leerArchivoIMC(self):
         df = pd.read_csv("IMC.csv")
-        
         return df
     
     def leerArchivotips(self):
@@ -65,6 +64,10 @@ class Archivo():
 
         return df
 
+    def leerArchivoRutina(self):
+        df = pd.read_csv("Rutina.csv")
+        return df
+        
 
 
     def agregarUsuario(self,usuario):
@@ -79,9 +82,18 @@ class Archivo():
         df = pd.concat([ndf],ignore_index=False)
         df.to_csv("IMC.csv",index=False, mode="a", header=not os.path.isfile("IMC.csv"))
 
+
         
     def agregarDieta(self,dieta):
         df = self.leerArchivo()
         ndf = pd.DataFrame(dieta,index=[0])
         df = pd.concat([ndf],ignore_index=False)
         df.to_csv("Dieta.csv", index=False, mode="a", header=not os.path.isfile("Dieta.csv"))
+
+    def agregarEjercicio(self,ejercicio):
+        df = self.leerArchivo()
+        ndf = pd.DataFrame(ejercicio,index=[0])
+        df = pd.concat([ndf],ignore_index=False)
+        df.to_csv("Rutina.csv",index=False, mode="a", header=not os.path.isfile("Rutina.csv"))
+        
+
