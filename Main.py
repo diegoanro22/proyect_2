@@ -162,19 +162,25 @@ class v_tips(Toplevel):
         
         
         #Label(self,text="Tip 1", font=("HP Simplified Hans",16),bg="#3A495B",fg="white").grid(column=0,row=0, columnspan=3, sticky=W+E,pady=10,padx=30,ipady=10)
-        self.TIP1 = ttk.Label(self,text="TIP 1", font=("HP Simplified Hans",16), style="Login.TLabel").grid(column=0,row=0, sticky=S+W,padx=30)
-        self.TIP2 = ttk.Label(self,text="TIP 2", font=("HP Simplified Hans",16), style="Login.TLabel").grid(column=0,row=1, sticky=S+W,padx=30)
-        self.TIP3 = ttk.Label(self,text="TIP 3", font=("HP Simplified Hans",16), style="Login.TLabel").grid(column=0,row=2, sticky=S+W,padx=30)
-        self.Ver_tips()
+        #self.TIP1 = ttk.Label(self,text="TIP 1", font=("HP Simplified Hans",16), style="Login.TLabel").grid(column=0,row=0, sticky=S+W,padx=30)
+        #self.TIP2 = ttk.Label(self,text="TIP 2", font=("HP Simplified Hans",16), style="Login.TLabel").grid(column=0,row=1, sticky=S+W,padx=30)
+        #self.TIP3 = ttk.Label(self,text="TIP 3", font=("HP Simplified Hans",16), style="Login.TLabel").grid(column=0,row=2, sticky=S+W,padx=30)
+
+        ttk.Button(self,text="Ver Tips", width=20,command=lambda:self.Ver_tips()).grid(column=0,row=5, sticky=S+W,padx=30)
+        #self.Ver_tips()
 
     def Ver_tips(self):
         self.show1=self.driver.tips_ver()
-        self.show2=self.driver.tips_ver()
-        self.show3=self.driver.tips_ver()
+        #self.show2=self.driver.tips_ver()
+        #self.show3=self.driver.tips_ver()
         
-        self.TIP1 = ttk.Label(self,text=str(self.show1), style="Login.TLabel").grid(column=0,row=0, columnspan=2,sticky=S+W,padx=30)
-        self.TIP2 = ttk.Label(self,text=str(self.show2), style="Login.TLabel").grid(column=0,row=1, columnspan=2,sticky=S+W,padx=30)
-        self.TIP3 = ttk.Label(self,text=str(self.show3), style="Login.TLabel").grid(column=0,row=2, columnspan=2,sticky=S+W,padx=30)
+        lafoto = self.show1 + ".png"
+
+        self.fotoimagen = PhotoImage(file=lafoto)
+        Label(self,image=self.fotoimagen).grid(column=0,row=1, columnspan=4,sticky=W+E)
+        #self.TIP1 = ttk.Label(self,text=str(self.show1), style="Login.TLabel").grid(column=0,row=0, columnspan=2,sticky=S+W,padx=30)
+        #self.TIP2 = ttk.Label(self,text=str(self.show2), style="Login.TLabel").grid(column=0,row=1, columnspan=2,sticky=S+W,padx=30)
+        #self.TIP3 = ttk.Label(self,text=str(self.show3), style="Login.TLabel").grid(column=0,row=2, columnspan=2,sticky=S+W,padx=30)
 
 
 

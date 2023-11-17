@@ -79,11 +79,11 @@ class driver():
     def tips_ver(self):
         can = self.archivo.leerArchivotips()
         rango = len(can)
-        print(rango)
+        
         tip1= can.loc[randint(0,rango-1)].astype(str).tolist()
-        print(tip1)
+        
         
 
-        return tip1
+        return tip1[0]
     
 
