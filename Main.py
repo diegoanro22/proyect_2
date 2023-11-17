@@ -172,7 +172,7 @@ class v_dieta(Toplevel):
     def callmostrarDieta(self, tipo):
         resultadoBusquedaTipo=self.driver.mostrarDieta(tipo)
         for index,row in resultadoBusquedaTipo.iterrows():
-            etiqueta_dieta=Label(self.tab1, text=f"Tipo: {row.iloc[0]}, Desayuno: {row.iloc[1]}, Almuerzo: {row.iloc[2]}, Cena: {row.iloc[3]}")
+            etiqueta_dieta=Label(self.tab1, text=f"Tipo: {row.iloc[0]}, \nDesayuno: {row.iloc[1]}, \nAlmuerzo: {row.iloc[2]}, \nCena: {row.iloc[3]}")
             etiqueta_dieta.grid(column=0,row=3, sticky=W, padx=10, pady=5)
             etiqueta_dieta.config(bg="white",font=("Arial", 12))
 
