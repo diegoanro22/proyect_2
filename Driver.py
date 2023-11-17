@@ -2,8 +2,8 @@ import Usuario
 import IMC
 import Archivo
 import pandas as pd
-import csv
 import os
+import Ejercicio
 
 class driver():
     def __init__(self):
@@ -27,7 +27,6 @@ class driver():
             pass
         else:
             self.archivo.crearArchivo()
-        
         self.archivo.agregarUsuario(usuario.__dict__)
 
     def guardarArchivoIMC(self,imc):
@@ -35,7 +34,6 @@ class driver():
             pass
         else:
             self.archivo.crearIMC()
-        
         self.archivo.agregarIMC(imc.__dict__)
 
 
@@ -75,6 +73,27 @@ class driver():
         self.registrarDatosIMC(altura, peso, edad)
         return imc
 
+    def obtenerGrupo(self):
+        archivo = self.archivo.leerArchivoRutina()
+        grupos_musculares = set(archivo['Grupo_Muscular'])
+        return grupos_musculares
 
+    def obtenerEjercicio(self,grupo):
+        archivo = self.archivo.leerArchivoRutina()
+        ejercicios_grupo = archivo[archivo['Grupo_Muscular'] == grupo]
+        return ejercicios_grupo
     
-
+    def registrarEjercicio(self,e1,e2,e3,e4):
+        grupo = str(e1)
+        nombre = str(e2)
+        sets = int(e3)
+        reps = int(e4)
+        newEjercicio = Ejercicio.Ejercicio(grupo,nombre,sets,reps)
+        self.guardarEjercicio(newEjercicio)
+        
+    def guardarEjercicio(self,ejercicio):
+        if os.path.exists("Rutina.csv"):
+            pass
+        else:
+            self.archivo.crearRutina()
+        self.archivo.agregarEjercicio(ejercicio.__dict__)

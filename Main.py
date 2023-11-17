@@ -149,7 +149,91 @@ class v_ejercicio(Toplevel):
         self.resizable(False,False)
         self.config(bg="white")
         
+        self.tab = ttk.Notebook(self)
+        self.tab.grid(column=0,row=0)
+        self.tab1=ttk.Frame(self.tab)
+        self.tab2=ttk.Frame(self.tab)
         
+        self.tab.add(self.tab1,text="Mostrar ejercicio")
+        self.tab.add(self.tab2,text="Ingresar ejercicio")
+        style = ttk.Style()
+        style.configure("TNotebook.Tab", background="white", font=("Bahnschrift",18),foreground="#3A495B")
+        style.configure("TFrame", background="white", font=("Bahnschrift",18),foreground="#3A495B")
+        self.mostrarejerciciov(self.tab1)
+        self.agregarejerciciov(self.tab2)
+    
+    def mostrarejerciciov(self,tab):
+        Label(tab,text="Rutina de ejercicios", font=("HP Simplified Hans",16),bg="#3A495B",fg="white").grid(column=0,row=0, columnspan=3, sticky=W+E,pady=10,padx=30,ipady=10)
+        Label(tab,text="¿Que grupo muscular desea trabajar?", font=("HP Simplified Hans",12)).grid(column=0,row=1, sticky=W+E,pady=10,padx=30,ipady=10)
+        self.combobox = ttk.Combobox(tab,state="readonly",font=("HP Simplified Hans",12));self.combobox.grid(column=1,row=1, sticky=W+E,pady=10,padx=30,ipady=10)
+        self.combobox['values']=tuple(self.driver.obtenerGrupo())
+        self.combobox.set("Elija una opcion")
+        ttk.Button(tab,text="Seleccionar", width=20,command=lambda:self.mostrar(tab,self.combobox.get())).grid(column=0,row=2,columnspan=2, sticky=W+E, padx=10,pady=30)
+        self.flag = False
+        self.flag2 = False
+        self.lseleccion = []
+        
+    def mostrar(self,tab,combo):
+        grupo_muscular = combo
+        ejercicios = self.driver.obtenerEjercicio(grupo_muscular)
+        
+        if self.flag:
+            self.label_frame.destroy()
+        
+        self.label_frame = ttk.LabelFrame(tab, text=f"Ejercicios para {grupo_muscular}")
+        self.label_frame.grid(column=0, row=3, columnspan=3, sticky=W+E, pady=10, padx=30, ipady=10)
+        self.vars = []
+
+        for index, row in ejercicios.iterrows():
+            var = BooleanVar()
+            etiqueta_ejercicio = Checkbutton(self.label_frame, text=f"Nombre: {row.iloc[1]}, Sets: {row.iloc[2]}, Repeticiones: {row.iloc[3]}", variable=var, font=("HP Simplified Hans", 12))
+            etiqueta_ejercicio.grid(column=0, row=index, sticky=W, pady=5, padx=10)
+            self.vars.append(var)
+        self.flag = True
+        ttk.Button(tab, text="Añadir a rutina", command=lambda:self.obtener_seleccion(ejercicios,tab)).grid(column=0, row=4, pady=10)
+        
+    def obtener_seleccion(self,ejercicios,tab):
+        seleccionados = [row[1] for var, row in zip(self.vars, ejercicios.iterrows()) if var.get()]
+        self.lseleccion.extend(seleccionados)
+
+            
+        if self.flag2:
+            self.label_frame2.destroy()
+
+        self.label_frame2 = ttk.LabelFrame(tab, text=f"Rutina de ejercicios")
+        self.label_frame2.grid(column=0, row=5, columnspan=3, sticky=W+E, pady=10, padx=30, ipady=10)
+
+        label_seleccionados = Label(self.label_frame2, text="Ejercicios seleccionados:", font=("HP Simplified Hans", 12))
+        label_seleccionados.grid(column=0, row=0, sticky=W, pady=5, padx=10)
+
+        # Agregar los ejercicios seleccionados al Label
+        for i, ejercicio in enumerate(self.lseleccion):
+            label_ejercicio = Label(self.label_frame2, text=f"{i + 1}. {ejercicio.iloc[1]}", font=("HP Simplified Hans", 12))
+            label_ejercicio.grid(column=0, row=i + 1, sticky=W, pady=5, padx=10)
+        
+        self.flag2 = True
+        
+    def agregarejerciciov(self,tab):
+        Label(tab,text="Agregar ejercicio", font=("HP Simplified Hans",16),bg="#3A495B",fg="white").grid(column=0,row=0, columnspan=2, sticky=W+E,pady=10,padx=30,ipady=10)    
+        Label(tab,text="Ingrese grupo muscular", font=("HP Simplified Hans",12)).grid(column=0,row=1, columnspan=2, sticky=W+E,pady=10,padx=30,ipady=10)    
+        self.combobox2 = ttk.Combobox(tab,font=("HP Simplified Hans",12),width=60);self.combobox2.grid(column=0,row=2, columnspan=2, sticky=W+E,pady=10,padx=30,ipady=10)
+        self.combobox2['values']=tuple(self.driver.obtenerGrupo())
+        Label(tab,text="Ingrese nombre del ejercicio", font=("HP Simplified Hans",12)).grid(column=0,row=3, columnspan=2, sticky=W+E,pady=10,padx=30,ipady=10)    
+        self.nombreEjercicio=ttk.Entry(tab, width=25, justify="center", font=("Century Gothic",12));self.nombreEjercicio.grid(column=0,row=4, columnspan=2, sticky=W+E,padx=30, ipady=5,pady=10)
+        Label(tab,text="Ingrese sets", font=("HP Simplified Hans",12)).grid(column=0,row=5, sticky=W+E,pady=10,padx=30,ipady=10)    
+        self.setsEjercicio=ttk.Entry(tab, width=5, justify="center", font=("Century Gothic",12));self.setsEjercicio.grid(column=0,row=6, sticky=W+E,padx=30, ipady=5,pady=10)
+        Label(tab,text="Ingrese repeticiones", font=("HP Simplified Hans",12)).grid(column=1,row=5, sticky=W+E,pady=10,padx=30,ipady=10)    
+        self.repsEjercicio=ttk.Entry(tab, width=5, justify="center", font=("Century Gothic",12));self.repsEjercicio.grid(column=1,row=6, sticky=W+E,padx=30, ipady=5,pady=10)
+        ttk.Button(tab,text="Registrar", width=20, command=lambda:self.callEjercicio(self.combobox2.get(),self.nombreEjercicio.get(),
+        self.setsEjercicio.get(),self.repsEjercicio.get())).grid(column=0,row=7, columnspan=2, sticky=W+E, padx=10,pady=30)
+        
+    def callEjercicio(self,e1,e2,e3,e4):
+        try:
+            self.driver.registrarEjercicio(e1,e2,e3,e4)
+            messagebox.showinfo("Atencion","Se añadió con éxito")
+        except Exception:
+            messagebox.showerror("Error","Ingreso un dato no válido")
+            
         
         
 class v_tips(Toplevel):
