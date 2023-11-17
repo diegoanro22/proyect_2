@@ -1,5 +1,6 @@
 import Usuario
 import IMC
+import Dieta
 import Archivo
 import pandas as pd
 import csv
@@ -39,6 +40,13 @@ class driver():
         
         self.archivo.agregarIMC(imc.__dict__)
 
+    def guardarArchivoDieta(self,dieta):
+        if os.path.exists("Dieta.csv"):
+            pass
+        else:
+            self.archivo.crearDieta()
+        
+        self.archivo.agregarDieta(dieta.__dict__)
 
     def login(self, username, password):
         archivo = self.archivo.leerArchivo()
@@ -86,4 +94,24 @@ class driver():
 
         return tip1[0]
     
+    def obtenerTipoDieta(self):
+        archivo = self.archivo.leerArchivoDieta()
+        tiposDieta=set(archivo['Tipo'])
+        return tiposDieta
+    
+    def datosDieta(self, e1, e2, e3, e4):
+        if e1=="" or e2=="" or e3=="" or e4=="":
+            raise Exception("Dejo algun campo en blanco")
+        else:
+            tipo = str(e1)
+            desayuno = str(e2)
+            almuerzo = str(e3)
+            cena = str(e4)
 
+            newDieta = Dieta.Dieta(tipo,desayuno,almuerzo,cena)
+            self.guardarArchivoDieta(newDieta)
+
+    def mostrarDieta(self, tipo):
+        archivo=self.archivo.leerArchivoDieta()
+        resultadoTipo=archivo[archivo['Tipo'].str.contains(tipo, case=False)]    
+        return resultadoTipo
