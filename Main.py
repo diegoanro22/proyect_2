@@ -97,7 +97,7 @@ class Login_ven(Toplevel):
         self.config(bg="white")
         Label(self,text="INICIO", font=("HP Simplified Hans",16),bg="#3A495B",fg="white").grid(column=0,row=0, columnspan=2, sticky=W+E,pady=10,padx=30,ipady=10)
 
-        ttk.Button(self,text="Ingresar IMC", width=50,command=lambda:v_imc()).grid(column=0,row=1, sticky=S+W,padx=20,pady=30,ipady=30)
+        ttk.Button(self,text="Calcular IMC", width=50,command=lambda:v_imc()).grid(column=0,row=1, sticky=S+W,padx=20,pady=30,ipady=30)
         ttk.Button(self,text="Dieta", width=50, command=lambda:v_dieta()).grid(column=1,row=1, sticky=S+W,padx=20,pady=30,ipady=30)
         ttk.Button(self,text="Rutina de Ejercicios", width=50, command=lambda:v_ejercicio()).grid(column=0,row=2, sticky=S+W,padx=20,pady=30,ipady=30)
         ttk.Button(self,text="Tips", width=50, command=lambda:v_tips()).grid(column=1,row=2, sticky=S+W,padx=20,pady=30,ipady=30)
@@ -180,6 +180,7 @@ class v_dieta(Toplevel):
     def calldatosDieta(self, tipo, desayuno, almuerzo, cena):
         try:
             self.driver.datosDieta(tipo, desayuno, almuerzo, cena)
+            self.destroy()
         except:
             messagebox.showerror("Error","No ingreso algun dato")
 
@@ -272,6 +273,7 @@ class v_ejercicio(Toplevel):
     def callEjercicio(self,e1,e2,e3,e4):
         try:
             self.driver.registrarEjercicio(e1,e2,e3,e4)
+            self.destroy()
             messagebox.showinfo("Atencion","Se añadió con éxito")
         except Exception:
             messagebox.showerror("Error","Ingreso un dato no válido")
