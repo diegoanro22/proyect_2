@@ -1,3 +1,10 @@
+"""
+@author: Diego Rosales, Fabián Morales, Erick Guerra
+Versión 1.7, 16/11/2023
+
+"""
+
+
 from tkinter import ttk
 from tkinter import *
 from tkinter import messagebox
@@ -6,6 +13,9 @@ import Driver
 
 class app(Tk):
     def __init__(self):
+        """
+         Initialize Tk. This is called by __init__ to set up the window
+        """
         Tk.__init__(self)
         self.title("Login")
         self.config(bg="white")
@@ -105,6 +115,9 @@ class Login_ven(Toplevel):
 
 class v_imc(Toplevel):
     def __init__(self):
+        """
+         Init la ventana de IMC a partir de la clase
+        """
         self.driver = Driver.driver()
         Toplevel.__init__(self)
         self.title("Calculadora de IMC")
@@ -125,6 +138,13 @@ class v_imc(Toplevel):
         ttk.Button(self,text="Calcular IMC", width=20,command=lambda:self.callCalcularIMC(self.entryAltura.get(),self.entryPeso.get(),self.entryEdad.get())).grid(column=0,row=3, sticky=S+W,padx=30)
     
     def callCalcularIMC(self, altura, peso, edad):
+        """
+         Este metodo permite calcular el IMC de la peso
+         
+         @param altura - Solicita datos de la altura de la cual se desea obtener
+         @param peso - Luego del peso que posee
+         @param edad
+        """
         try:
             self.imcfinal=self.driver.calcularIMC(altura,peso,edad)
             self.resultadoIMC = ttk.Label(self,text="Su IMC es: "+str(self.imcfinal)+" %", style="Login.TLabel").grid(column=1,row=3, columnspan=2,sticky=S+W,padx=30)
@@ -134,6 +154,9 @@ class v_imc(Toplevel):
 
 class v_dieta(Toplevel):
     def __init__(self):
+        """
+         Initaliza los objetos de la clase Toplevel y crea
+        """
         self.driver = Driver.driver()
         Toplevel.__init__(self)
         self.title("Dietas")
@@ -170,7 +193,13 @@ class v_dieta(Toplevel):
         ttk.Button(self.tab2,text="Guardar Dieta", width=20,command=lambda:self.calldatosDieta(self.entryTipo.get(),self.entryDesayuno.get(),self.entryAlmuerzo.get(),self.entryCena.get())).grid(column=0,row=8, sticky=S+W,padx=30)
 
     def callmostrarDieta(self, tipo):
+        """
+         Muestra los tipos de busqueda en la tabla
+         
+         @param tipo - Identificador del tipo de busqueda
+        """
         resultadoBusquedaTipo=self.driver.mostrarDieta(tipo)
+        # Metodo que se encarga de busquedaTipo. iterrows en el tab1
         for index,row in resultadoBusquedaTipo.iterrows():
             etiqueta_dieta=Label(self.tab1, text=f"Tipo: {row.iloc[0]}, \nDesayuno: {row.iloc[1]}, \nAlmuerzo: {row.iloc[2]}, \nCena: {row.iloc[3]}")
             etiqueta_dieta.grid(column=0,row=3, sticky=W, padx=10, pady=5)
@@ -186,6 +215,9 @@ class v_dieta(Toplevel):
 
 class v_ejercicio(Toplevel):
     def __init__(self):
+        """
+         Initaliza el ejercicio de teclado
+        """
         self.driver = Driver.driver()
         Toplevel.__init__(self)
         self.title("Ejercicios")
@@ -206,6 +238,11 @@ class v_ejercicio(Toplevel):
         self.agregarejerciciov(self.tab2)
     
     def mostrarejerciciov(self,tab):
+        """
+         Mostrarejerciciov inizializzazione della tabella.
+         
+         @param tab - Datos del tabulario a mostr
+        """
         Label(tab,text="Rutina de ejercicios", font=("HP Simplified Hans",16),bg="#3A495B",fg="white").grid(column=0,row=0, columnspan=3, sticky=W+E,pady=10,padx=30,ipady=10)
         Label(tab,text="¿Que grupo muscular desea trabajar?", font=("HP Simplified Hans",12)).grid(column=0,row=1, sticky=W+E,pady=10,padx=30,ipady=10)
         self.combobox = ttk.Combobox(tab,state="readonly",font=("HP Simplified Hans",12));self.combobox.grid(column=1,row=1, sticky=W+E,pady=10,padx=30,ipady=10)
@@ -217,9 +254,16 @@ class v_ejercicio(Toplevel):
         self.lseleccion = []
         
     def mostrar(self,tab,combo):
+        """
+         Muestra el formulario de estado indicado por parametro
+         
+         @param tab - Tabla con los campos a mostrar
+         @param combo - Combo del grupo que contiene el grupo muscular
+        """
         grupo_muscular = combo
         ejercicios = self.driver.obtenerEjercicio(grupo_muscular)
         
+        # destroy label frame if flag is set
         if self.flag:
             self.label_frame.destroy()
         
@@ -227,6 +271,7 @@ class v_ejercicio(Toplevel):
         self.label_frame.grid(column=0, row=3, columnspan=3, sticky=W+E, pady=10, padx=30, ipady=10)
         self.vars = []
 
+        # Metodo que el el valor de jercicios del contenido
         for index, row in ejercicios.iterrows():
             var = BooleanVar()
             etiqueta_ejercicio = Checkbutton(self.label_frame, text=f"Nombre: {row.iloc[1]}, Sets: {row.iloc[2]}, Repeticiones: {row.iloc[3]}", variable=var, font=("HP Simplified Hans", 12))
@@ -236,10 +281,17 @@ class v_ejercicio(Toplevel):
         ttk.Button(tab, text="Añadir a rutina", command=lambda:self.obtener_seleccion(ejercicios,tab)).grid(column=0, row=4, pady=10)
         
     def obtener_seleccion(self,ejercicios,tab):
+        """
+         Obtiene el listado de selecciones y los muestras
+         
+         @param ejercicios - Ejercicios en la tabla que contiene las ejercicios seleccionados
+         @param tab - Tabla de la ventana de selección
+        """
         seleccionados = [row[1] for var, row in zip(self.vars, ejercicios.iterrows()) if var.get()]
         self.lseleccion.extend(seleccionados)
 
             
+        # destroy label frame2 if flag2 is set to true
         if self.flag2:
             self.label_frame2.destroy()
 
@@ -250,6 +302,7 @@ class v_ejercicio(Toplevel):
         label_seleccionados.grid(column=0, row=0, sticky=W, pady=5, padx=10)
 
         # Agregar los ejercicios seleccionados al Label
+        # Lseleccion de el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el el
         for i, ejercicio in enumerate(self.lseleccion):
             label_ejercicio = Label(self.label_frame2, text=f"{i + 1}. {ejercicio.iloc[1]}", font=("HP Simplified Hans", 12))
             label_ejercicio.grid(column=0, row=i + 1, sticky=W, pady=5, padx=10)
@@ -257,6 +310,11 @@ class v_ejercicio(Toplevel):
         self.flag2 = True
         
     def agregarejerciciov(self,tab):
+        """
+         Agrega ejercicio a la ventana del grupo
+         
+         @param tab - Tabla con los contenidos del
+        """
         Label(tab,text="Agregar ejercicio", font=("HP Simplified Hans",16),bg="#3A495B",fg="white").grid(column=0,row=0, columnspan=2, sticky=W+E,pady=10,padx=30,ipady=10)    
         Label(tab,text="Ingrese grupo muscular", font=("HP Simplified Hans",12)).grid(column=0,row=1, columnspan=2, sticky=W+E,pady=10,padx=30,ipady=10)    
         self.combobox2 = ttk.Combobox(tab,font=("HP Simplified Hans",12),width=60);self.combobox2.grid(column=0,row=2, columnspan=2, sticky=W+E,pady=10,padx=30,ipady=10)
@@ -271,6 +329,14 @@ class v_ejercicio(Toplevel):
         self.setsEjercicio.get(),self.repsEjercicio.get())).grid(column=0,row=7, columnspan=2, sticky=W+E, padx=10,pady=30)
         
     def callEjercicio(self,e1,e2,e3,e4):
+        """
+         Metodo que inicia el ejercicio de la ventana
+         
+         @param e1 - El dato que esta registrar
+         @param e2 - El dato que esta registrar
+         @param e3 - El dato que esta registrar
+         @param e4 - El dato que esta registrar
+        """
         try:
             self.driver.registrarEjercicio(e1,e2,e3,e4)
             self.destroy()
@@ -282,6 +348,9 @@ class v_ejercicio(Toplevel):
         
 class v_tips(Toplevel):
     def __init__(self):
+        """
+         Initialize Tips. This is called by __init__ and should not be called directly
+        """
         self.driver = Driver.driver()
         Toplevel.__init__(self)
         self.title("Tips")
@@ -298,17 +367,17 @@ class v_tips(Toplevel):
         #self.Ver_tips()
 
     def Ver_tips(self):
+        """
+         Tips versus Football tip. This is used to show tips versus Football
+        """
         self.show1=self.driver.tips_ver()
-        #self.show2=self.driver.tips_ver()
-        #self.show3=self.driver.tips_ver()
+
         
         lafoto = self.show1 + ".png"
 
         self.fotoimagen = PhotoImage(file=lafoto)
         Label(self,image=self.fotoimagen).grid(column=0,row=1, columnspan=4,sticky=W+E)
-        #self.TIP1 = ttk.Label(self,text=str(self.show1), style="Login.TLabel").grid(column=0,row=0, columnspan=2,sticky=S+W,padx=30)
-        #self.TIP2 = ttk.Label(self,text=str(self.show2), style="Login.TLabel").grid(column=0,row=1, columnspan=2,sticky=S+W,padx=30)
-        #self.TIP3 = ttk.Label(self,text=str(self.show3), style="Login.TLabel").grid(column=0,row=2, columnspan=2,sticky=S+W,padx=30)
+
 
 
 
